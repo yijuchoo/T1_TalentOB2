@@ -23,9 +23,12 @@ public partial class MvptalentObContext : DbContext
 
     public virtual DbSet<Store> Stores { get; set; }
 
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //}
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-    }
+        => optionsBuilder.UseSqlServer("");
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
