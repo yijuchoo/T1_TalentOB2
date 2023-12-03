@@ -28,11 +28,7 @@ namespace T1_TalentOB.Controllers
             {
                 return NotFound();
             }
-            return await _context.Sales
-                .Include(c => c.Customer)
-                .Include(p => p.Product)
-                .Include(s => s.Store)
-                .ToListAsync();
+            return await _context.Sales.ToListAsync();
         }
 
 
@@ -98,6 +94,10 @@ namespace T1_TalentOB.Controllers
 
             _context.Sales.Add(sale);
             await _context.SaveChangesAsync();
+
+
+            
+            // Return the response with details
 
             return CreatedAtAction("GetSale", new { id = sale.Id }, sale);
         }
