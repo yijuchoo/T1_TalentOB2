@@ -48,24 +48,21 @@ public partial class MvptalentObContext : DbContext
 
         modelBuilder.Entity<Sale>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Sale");
+            entity.ToTable("Sale");
 
             entity.Property(e => e.DateSold).HasColumnType("datetime");
-            entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.Customer).WithMany()
+            entity.HasOne(d => d.Customer).WithMany(p => p.Sales)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Sale_Customer");
 
-            entity.HasOne(d => d.Product).WithMany()
+            entity.HasOne(d => d.Product).WithMany(p => p.Sales)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Sale_Product");
 
-            entity.HasOne(d => d.Store).WithMany()
+            entity.HasOne(d => d.Store).WithMany(p => p.Sales)
                 .HasForeignKey(d => d.StoreId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Sale_Store");

@@ -10,4 +10,6 @@ public partial class Store
     public string Name { get; set; } = null!;
 
     public string? Address { get; set; }
+
+    public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 }

@@ -6,6 +6,7 @@ export class Customer extends Component {
     constructor(props) {
         super(props);
         this.state = { customers: [], loading: true };
+        this.addCustomer = this.addCustomer.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +30,8 @@ export class Customer extends Component {
                             <td>{customer.id}</td>
                             <td>{customer.name}</td>
                             <td>{customer.address}</td>
+                            <td><button>Update Customer</button></td>
+                            <td><button>Delete Customer</button></td>
                         </tr>
                     )}
                 </tbody>
@@ -44,12 +47,33 @@ export class Customer extends Component {
 
         return (
             <div>
+                <button onClick={this.addCustomer}>Add Customer</button>
                 <h1 id="tableLabel">Customers</h1>
-                <p>Customers data</p>
                 {contents}
             </div>
         );
     }
+
+
+    async addCustomer() {
+
+        this.state = { customers: [], loading: true };
+
+
+        const data = await fetch(
+            'api/customers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                Name: 'Terry',
+                Address: 'Pasir Ris, Singapore'
+            })
+        }).then((data) => data.json());
+
+        this.setState({ customers: data, loading: false });
+
+    }
+
 
     async populateCustomerData() {
         const response = await fetch('api/customers');
