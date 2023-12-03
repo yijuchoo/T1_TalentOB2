@@ -75,6 +75,7 @@ export class Customer extends Component {
     }
 
 
+
     async populateCustomerData() {
         const response = await fetch('api/customers');
         const data = await response.json();
