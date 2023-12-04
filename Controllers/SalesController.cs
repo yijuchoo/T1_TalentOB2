@@ -28,8 +28,21 @@ namespace T1_TalentOB.Controllers
             {
                 return NotFound();
             }
-            return await _context.Sales.ToListAsync();
+            return await _context.Sales
+                .Include(sale => sale.Customer)
+                .Include(sale => sale.Product)
+                .Include(sale => sale.Store)
+                .ToListAsync();
         }
+
+        //public async Task<ActionResult<IEnumerable<Sale>>> GetSales()
+        //{
+        //    if (_context.Sales == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return await _context.Sales.ToListAsync();
+        //}
 
 
         // GET: api/Sales/5
@@ -86,21 +99,23 @@ namespace T1_TalentOB.Controllers
         [HttpPost]
         public async Task<ActionResult<Sale>> PostSale(Sale sale)
         {
-          if (_context.Sales == null)
-          {
-              return Problem("Entity set 'MvptalentObContext.Sales'  is null.");
-          }
+            if (_context.Sales == null)
+            {
+                return Problem("Entity set 'MvptalentObContext.Sales'  is null.");
+            }
             sale.DateSold = DateTime.Now;
 
             _context.Sales.Add(sale);
             await _context.SaveChangesAsync();
 
 
-            
+
             // Return the response with details
 
             return CreatedAtAction("GetSale", new { id = sale.Id }, sale);
         }
+
+
 
         // DELETE: api/Sales/5
         [HttpDelete("{id}")]
