@@ -20,6 +20,19 @@ namespace T1_TalentOB.Controllers
             _context = context;
         }
 
+
+        public class SalesViewDetailDto
+        {
+            public long SalesId { get; set; }
+            public string CustomerName { get; set; } = null!;
+            public string StoreName { get; set; } = null!;
+            public string ProductName { get; set; } = null!;
+            public decimal ProductPrice { get; set; }
+            public string OrderDateTime { get; set; }
+        }
+
+
+
         // GET: api/Sales
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sale>>> GetSales()
@@ -28,21 +41,25 @@ namespace T1_TalentOB.Controllers
             {
                 return NotFound();
             }
-            return await _context.Sales
+            var sales = await _context.Sales
                 .Include(sale => sale.Customer)
                 .Include(sale => sale.Product)
                 .Include(sale => sale.Store)
                 .ToListAsync();
-        }
 
-        //public async Task<ActionResult<IEnumerable<Sale>>> GetSales()
-        //{
-        //    if (_context.Sales == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return await _context.Sales.ToListAsync();
-        //}
+            IEnumerable<SalesViewDetailDto> lstSaleItem = null;
+            lstSaleItem = sales.Select(x => new SalesViewDetailDto
+            {
+                ProductName = x.Product.Name,
+                ProductPrice = x.Product.Price,
+                CustomerName = x.Customer.Name,
+                StoreName = x.Store.Name,
+                OrderDateTime = x.DateSold.ToString("dd/MM/yyyy HH:mm:ss"),
+                SalesId = x.Id
+            }).ToList();
+
+            return Ok(lstSaleItem);
+        }
 
 
         // GET: api/Sales/5
@@ -97,23 +114,45 @@ namespace T1_TalentOB.Controllers
         // POST: api/Sales
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Sale>> PostSale(Sale sale)
+
+        public async Task<ActionResult<IEnumerable<Sale>>> PostSale(Sale sale)
         {
             if (_context.Sales == null)
             {
-                return Problem("Entity set 'MvptalentObContext.Sales'  is null.");
+                return Problem("Entity set 'StoresDbContext.Sales'  is null.");
             }
-            sale.DateSold = DateTime.Now;
-
-            _context.Sales.Add(sale);
-            await _context.SaveChangesAsync();
-
-
-
-            // Return the response with details
-
-            return CreatedAtAction("GetSale", new { id = sale.Id }, sale);
+            if (sale.Id != 0)
+            {
+                _context.Add(sale).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                _context.Sales.Add(sale);
+                await _context.SaveChangesAsync();
+            }
+            var _sales = await _context.Sales.ToListAsync();
+            return _sales;
         }
+
+
+        //public async Task<ActionResult<Sale>> PostSale(Sale sale)
+        //{
+        //    if (_context.Sales == null)
+        //    {
+        //        return Problem("Entity set 'MvptalentObContext.Sales'  is null.");
+        //    }
+        //    sale.DateSold = DateTime.Now;
+
+        //    _context.Sales.Add(sale);
+        //    await _context.SaveChangesAsync();
+
+
+
+        //    // Return the response with details
+
+        //    return CreatedAtAction("GetSale", new { id = sale.Id }, sale);
+        //}
 
 
 
