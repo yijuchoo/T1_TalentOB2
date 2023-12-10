@@ -24,10 +24,10 @@ namespace T1_TalentOB.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-          if (_context.Customers == null)
-          {
-              return NotFound();
-          }
+            if (_context.Customers == null)
+            {
+                return NotFound();
+            }
             return await _context.Customers.ToListAsync();
         }
 
