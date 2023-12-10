@@ -31,6 +31,14 @@ namespace T1_TalentOB.Controllers
             public string OrderDateTime { get; set; }
         }
 
+        public class SalesCreateDto
+        {
+
+            public int ProductId { get; set; }
+            public int CustomerId { get; set; }
+            public int StoreId { get; set; }
+
+        }
 
 
         // GET: api/Sales
@@ -57,6 +65,7 @@ namespace T1_TalentOB.Controllers
                 OrderDateTime = x.DateSold.ToString("dd/MM/yyyy HH:mm:ss"),
                 SalesId = x.Id
             }).ToList();
+
 
             return Ok(lstSaleItem);
         }
@@ -113,26 +122,32 @@ namespace T1_TalentOB.Controllers
 
         // POST: api/Sales
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("create")]
 
-        public async Task<ActionResult<IEnumerable<Sale>>> PostSale(Sale sale)
+        public async Task<ActionResult<Sale>> PostSale(SalesCreateDto sale)
         {
             if (_context.Sales == null)
             {
-                return Problem("Entity set 'StoresDbContext.Sales'  is null.");
+                return Problem("Entity set 'MvptalentObContext.Sales'  is null.");
             }
-            if (sale.Id != 0)
+            Sale objSale = new Sale
             {
-                _context.Add(sale).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                _context.Sales.Add(sale);
-                await _context.SaveChangesAsync();
-            }
-            var _sales = await _context.Sales.ToListAsync();
-            return _sales;
+                StoreId = sale.StoreId,
+                CustomerId = sale.CustomerId,
+                ProductId = sale.ProductId,
+                DateSold = DateTime.Now
+            };
+            //sale.DateSold = DateTime.Now;
+
+            _context.Sales.Add(objSale);
+            await _context.SaveChangesAsync();
+
+
+
+            //// Return the response with details
+
+            //return CreatedAtAction("GetSale", new { id = sale.Id }, sale);
+            return Ok(objSale);
         }
 
 
