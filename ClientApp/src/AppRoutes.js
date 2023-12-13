@@ -3,6 +3,7 @@ import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { Customer } from "./components/Customer";
 import { Store } from "./components/Store";
+import { Product } from "./components/Product";
 
 const AppRoutes = [
   {
@@ -24,6 +25,10 @@ const AppRoutes = [
     {
         path: '/store',
         element: <Store />
+    },
+    {
+        path: '/product',
+        element: <Product />
     }
 ];
 
