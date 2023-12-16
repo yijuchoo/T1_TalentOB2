@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using T1_TalentOB.Models;
 
 namespace T1_TalentOB.Controllers
@@ -59,7 +60,7 @@ namespace T1_TalentOB.Controllers
             lstSaleItem = sales.Select(x => new SalesViewDetailDto
             {
                 ProductName = x.Product.Name,
-                ProductPrice = x.Product.Price,
+                ProductPrice = Math.Round(x.Product.Price, 2),  // change to 2 decimal
                 CustomerName = x.Customer.Name,
                 StoreName = x.Store.Name,
                 OrderDateTime = x.DateSold.ToString("dd/MM/yyyy HH:mm:ss"),
@@ -67,7 +68,21 @@ namespace T1_TalentOB.Controllers
             }).ToList();
 
 
+            // Format JSON with line breaks and indentation (to show break in Postman)
+            var jsonSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented
+            };
+
+            var formattedJson = JsonConvert.SerializeObject(lstSaleItem, jsonSettings);
+
+            return Content(formattedJson, "application/json");
+
+
+
             return Ok(lstSaleItem);
+            
+
         }
 
 

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using T1_TalentOB.Models;
+using static T1_TalentOB.Controllers.SalesController;
 
 namespace T1_TalentOB.Controllers
 {
