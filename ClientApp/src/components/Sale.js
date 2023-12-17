@@ -5,7 +5,7 @@ export class Sale extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { customers: [], loading: true };
+        this.state = { sales: [], loading: true };
         this.addSale = this.addSale.bind(this);
     }
 
@@ -55,7 +55,7 @@ export class Sale extends Component {
     }
 
 
-    async addSale() {
+    async addSale(id, name, address) {
 
         this.state = { sales: [], loading: true };
 
@@ -64,9 +64,10 @@ export class Sale extends Component {
             'api/sales', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                Name: 'Terry',
-                Address: 'Pasir Ris, Singapore'
+                body: JSON.stringify({
+                Id: id,
+                Name: name,
+                Address: address
             })
         }).then((data) => data.json());
 

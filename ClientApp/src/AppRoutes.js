@@ -4,6 +4,7 @@ import { Home } from "./components/Home";
 import { Customer } from "./components/Customer";
 import { Store } from "./components/Store";
 import { Product } from "./components/Product";
+import { Sale } from "./components/Sale";
 
 const AppRoutes = [
   {
@@ -29,6 +30,10 @@ const AppRoutes = [
     {
         path: '/product',
         element: <Product />
+    },
+    {
+        path: '/sale',
+        element: <Sale />
     }
 ];
 

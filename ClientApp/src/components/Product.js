@@ -55,7 +55,7 @@ export class Product extends Component {
     }
 
 
-    async addProduct() {
+    async addProduct(id, name, price) {
 
         this.state = { products: [], loading: true };
 
@@ -64,9 +64,10 @@ export class Product extends Component {
             'api/products', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                Name: 'Old Town 3 in 1 Instant White Coffee - Classic',
-                Price: 7.50
+                body: JSON.stringify({
+                Id: id,
+                Name: name,
+                Price: price
             })
         }).then((data) => data.json());
 

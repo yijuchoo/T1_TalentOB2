@@ -69,14 +69,14 @@ namespace T1_TalentOB.Controllers
 
 
             // Format JSON with line breaks and indentation (to show break in Postman)
-            var jsonSettings = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented
-            };
+            //var jsonSettings = new JsonSerializerSettings
+            //{
+            //    Formatting = Formatting.Indented
+            //};
 
-            var formattedJson = JsonConvert.SerializeObject(lstSaleItem, jsonSettings);
+            //var formattedJson = JsonConvert.SerializeObject(lstSaleItem, jsonSettings);
 
-            return Content(formattedJson, "application/json");
+            //return Content(formattedJson, "application/json");
 
 
 

@@ -5,7 +5,7 @@ export class Customer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { customers: [], loading: true };
+        this.state = { customers: [], loading: true, id: '', name: '', address:'' };
         this.addCustomer = this.addCustomer.bind(this);
     }
 
@@ -55,7 +55,7 @@ export class Customer extends Component {
     }
 
 
-    async addCustomer() {
+    async addCustomer(id, name, address) {
 
         this.state = { customers: [], loading: true };
 
@@ -65,8 +65,9 @@ export class Customer extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                Name: 'Terry',
-                Address: 'Pasir Ris, Singapore'
+                Id: id,
+                Name: name,
+                Address: address
             })
         }).then((data) => data.json());
 
