@@ -20,16 +20,24 @@ export class Sale extends Component {
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>
-                        <th>Address</th>
+                        <th>Customer Name</th>
+                        <th>Product Name</th>
+                        <th>Product Price</th>
+                        <th>Store Name</th>
+                        <th>Store Address</th>
+                        <th>Sale Date Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     {sales.map(sale =>
-                        <tr key={sale.id}>
-                            <td>{sale.id}</td>
-                            <td>{sale.name}</td>
-                            <td>{sale.address}</td>
+                        <tr key={sale.salesId}>
+                            <td>{sale.salesId}</td>
+                            <td>{sale.customerName}</td>
+                            <td>{sale.productName}</td>
+                            <td>{sale.productPrice}</td>
+                            <td>{sale.storeName}</td>
+                            <td>{sale.storeAddress}</td>
+                            <td>{sale.orderDateTime}</td>
                             <td><button>Update Sale</button></td>
                             <td><button>Delete Sale</button></td>
                         </tr>

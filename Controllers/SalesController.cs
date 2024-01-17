@@ -27,9 +27,10 @@ namespace T1_TalentOB.Controllers
             public long SalesId { get; set; }
             public string CustomerName { get; set; } = null!;
             public string StoreName { get; set; } = null!;
+            public string StoreAddress { get; set; } = null!;
             public string ProductName { get; set; } = null!;
             public decimal ProductPrice { get; set; }
-            public string OrderDateTime { get; set; }
+            public string? OrderDateTime { get; set; }
         }
 
         public class SalesCreateDto
@@ -56,19 +57,20 @@ namespace T1_TalentOB.Controllers
                 .Include(sale => sale.Store)
                 .ToListAsync();
 
-            IEnumerable<SalesViewDetailDto> lstSaleItem = null;
+            IEnumerable<SalesViewDetailDto>? lstSaleItem = null;
             lstSaleItem = sales.Select(x => new SalesViewDetailDto
             {
                 ProductName = x.Product.Name,
                 ProductPrice = Math.Round(x.Product.Price, 2),  // change to 2 decimal
                 CustomerName = x.Customer.Name,
                 StoreName = x.Store.Name,
+                StoreAddress = x.Store.Address,
                 OrderDateTime = x.DateSold.ToString("dd/MM/yyyy HH:mm:ss"),
                 SalesId = x.Id
             }).ToList();
 
 
-            // Format JSON with line breaks and indentation (to show break in Postman)
+            //Format JSON with line breaks and indentation(to show break in Postman)
             //var jsonSettings = new JsonSerializerSettings
             //{
             //    Formatting = Formatting.Indented
@@ -81,7 +83,7 @@ namespace T1_TalentOB.Controllers
 
 
             return Ok(lstSaleItem);
-            
+
 
         }
 

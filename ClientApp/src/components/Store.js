@@ -6,6 +6,7 @@ export class Store extends Component {
     constructor(props) {
         super(props);
         this.state = { stores: [], loading: true };
+        this.addStore = this.addStore.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +30,8 @@ export class Store extends Component {
                             <td>{store.id}</td>
                             <td>{store.name}</td>
                             <td>{store.address}</td>
+                            <td><button>Update Sale</button></td>
+                            <td><button>Delete Sale</button></td>
                         </tr>
                     )}
                 </tbody>
@@ -44,11 +47,35 @@ export class Store extends Component {
 
         return (
             <div>
+                <button onClick={this.addStore}>Add Store</button>
                 <h1 id="tableLabel">Stores</h1>
                 {contents}
             </div>
         );
     }
+
+
+    async addStore(id, name, address) {
+
+        this.state = { stores: [], loading: true };
+
+
+        const data = await fetch(
+            'api/stores', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                Id: id,
+                Name: name,
+                Address: address
+            })
+        }).then((data) => data.json());
+
+        this.setState({ stores: data, loading: false });
+
+    }
+
+
 
     async populateStoreData() {
         const response = await fetch('api/stores');
