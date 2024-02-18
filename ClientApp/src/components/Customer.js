@@ -227,7 +227,7 @@ export class Customer extends Component {
             const data = await response.json();
             this.setState({ customers: data, loading: false });
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.log(this.state.customers);
             this.setState({ loading: false });
 
 
@@ -235,6 +235,25 @@ export class Customer extends Component {
         }
 
     }
+
+    //async populateCustomerData() {
+    //    try {
+
+    //        const response = await fetch('api/customers');
+    //        if (!response.ok) {
+    //            throw new Error('Failed to fetch data');
+    //        }
+    //        const data = await response.json();
+    //        this.setState({ customers: data, loading: false });
+    //    } catch (error) {
+    //        console.error('Error fetching data:', error);
+    //        this.setState({ loading: false });
+
+
+
+    //    }
+
+    //}
 
     //async populateCustomerData() {
     //    this.setState({ customers: [], loading: true });
